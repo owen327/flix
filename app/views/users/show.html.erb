@@ -1,0 +1,50 @@
+<article id="user">
+  <header>
+    <%= profile_image_for(@user) %>
+    <h1><%= @user.name %></h1>
+    <h2><%= mail_to(@user.email) %></h2>
+  </header>
+
+  <h3>Member Since</h3>
+  <p>
+    <%= @user.created_at.strftime("%B %Y") %>
+  </p>
+
+  <% if @favourite_movies.any? %>
+    <h3>Favourite Movies</h3>
+    <ul>
+      <% @favourite_movies.each do |favourite_movie| %>
+        <li><%= link_to favourite_movie.title, favourite_movie %></li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <% if @reviews.any? %>
+  <h3>Reviews</h3>
+    <ol id="reviews">
+      <% @reviews.each do |review| %>
+        <li>
+          <%= link_to review.movie.title, review.movie %>
+          <span class="review"><%= pluralize(review.stars, 'star') %></span>
+          <span class="date"><%= time_ago_in_words(review.created_at) %> ago</span>
+          <p>
+            &quot;<%= review.comment %>&quot;
+          </p>
+        </li>
+      <% end %>
+    </ol>
+  <% end %>
+
+  <footer>
+    <nav>
+      <% if current_user?(@user) %>
+        <%= link_to "Edit Account", edit_user_path(@user), class: 'button' %>
+      <% end %>
+      <% if current_user_admin? %>
+        <%= link_to "Delete Account",  @user, method: :delete,
+        data: { confirm: 'Are you sure you want to permanently delete your account?' },
+        class: 'button' %>
+      <% end %>
+    </nav>
+  </footer>
+</article>

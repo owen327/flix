@@ -34,5 +34,8 @@ module Flix
     console do
       ActiveRecord::Base.connection
     end
+    config.generators do |g|
+      g.test_framework false
+    end
   end
 end

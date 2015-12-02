@@ -11,7 +11,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151009211241) do
+ActiveRecord::Schema.define(version: 20151201162011) do
+
+  create_table "characterizations", force: :cascade do |t|
+    t.integer  "movie_id"
+    t.integer  "genre_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "characterizations", ["genre_id"], name: "index_characterizations_on_genre_id"
+  add_index "characterizations", ["movie_id"], name: "index_characterizations_on_movie_id"
+
+  create_table "favourites", force: :cascade do |t|
+    t.integer  "movie_id"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "favourites", ["movie_id"], name: "index_favourites_on_movie_id"
+  add_index "favourites", ["user_id"], name: "index_favourites_on_user_id"
+
+  create_table "genres", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "movies", force: :cascade do |t|
     t.string   "title"
@@ -28,14 +54,24 @@ ActiveRecord::Schema.define(version: 20151009211241) do
   end
 
   create_table "reviews", force: :cascade do |t|
-    t.string   "name"
     t.integer  "stars"
     t.text     "comment"
     t.integer  "movie_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "user_id"
   end
 
   add_index "reviews", ["movie_id"], name: "index_reviews_on_movie_id"
+
+  create_table "users", force: :cascade do |t|
+    t.string   "name"
+    t.string   "email"
+    t.string   "password_digest"
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.string   "username"
+    t.boolean  "admin",           default: false
+  end
 
 end
