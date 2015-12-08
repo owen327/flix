@@ -34,3 +34,14 @@
     </li>
   <% end %>
 </ul>
+
+<% content_for :side, (render 'movies_sidebar_extras')  %>
+<!-- <%# content_for :side do %>
+<h3>Genres</h3>
+<ul>
+  <%# @genres.each do |genre| %>
+  <li> <%#= link_to genre.name, genre %> </li>
+  <%# end %>
+</ul>
+
+<%# end %> -->

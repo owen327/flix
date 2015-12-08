@@ -1,4 +1,5 @@
 class Movie < ActiveRecord::Base
+  before_validation :generate_slug
 
   validates :title, :released_on, :duration, presence: true
   validates :description, length: { minimum: 25 }
@@ -11,25 +12,36 @@ class Movie < ActiveRecord::Base
   RATINGS = %w(G PG PG-13 R NC-17)
 
   validates :rating, inclusion: { in: RATINGS }
+  validates :title, presence: true, uniqueness: true
+  validates :slug, uniqueness: true
 
-  has_many :reviews, dependent: :destroy
+  has_many :reviews, -> { order(created_at: :desc) }, dependent: :destroy
   has_many :critics, through: :reviews, source: :user
   has_many :favourites, dependent: :destroy
   has_many :fans, through: :favourites, source: :user
   has_many :characterizations, dependent: :destroy
   has_many :genres, through: :characterizations
 
-  def self.released
-    where("released_on <= ?", Time.now).order("released_on desc")
-  end
+  scope :released,  -> { where("released_on <= ?", Time.now).order(released_on: :desc) }
+  scope :hits, -> { released.where('total_gross >= 300000000').order(total_gross: :desc) }
+  scope :flops, -> { released.where('total_gross < 50000000').order(total_gross: :asc) }
+  scope :upcoming, -> { where("released_on > ?", Time.now).order(released_on: :asc) }
+  #scope :rated, -> (rating){ released.where("rating = ?", rating) }
+  scope :rated, ->(rating) { released.where(rating: rating) }
+  scope :recent, ->(max=5) { released.limit(max) }
+  scope :grossed_less_than, ->(amount) { released.where('total_gross < ?', amount) }
+  scope :grossed_greater_than, ->(amount) { released.where('total_gross > ?', amount) }
+  # def self.released
+  #   where("released_on <= ?", Time.now).order("released_on desc")
+  # end
 
-  def self.hits
-    where('total_gross >= 300000000').order('total_gross desc')
-  end
-
-  def self.flops
-    where('total_gross < 10000000').order('total_gross asc')
-  end
+  # def self.hits
+  #   where('total_gross >= 300000000').order('total_gross desc')
+  # end
+  #
+  # def self.flops
+  #   where('total_gross < 10000000').order('total_gross asc')
+  # end
 
   def self.recently_added
     order('created_at desc').limit(3)
@@ -45,5 +57,14 @@ class Movie < ActiveRecord::Base
 
   def recent_reviews
     reviews.order('created_at desc').limit(2)
+  end
+
+  def to_param
+    #{}"#{id}-#{title.parameterize}"
+    slug
+  end
+
+  def generate_slug
+    self.slug ||= title.parameterize if title?
   end
 end

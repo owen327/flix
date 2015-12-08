@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
 
+  get "movies/filter/:scope" => "movies#index", as: :filtered_movies
+  #get "movies/filter/flops" => "movies#index", scope: "flops"
+#  get "/movies/filter/hits" => "movies#index", scope: "hits"
   resources :genres
   get "signin" => "sessions#new"
   resource :session

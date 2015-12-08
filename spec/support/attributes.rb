@@ -1,6 +1,7 @@
 def movie_attributes(overrides = {})
+  random_number = (0..9).to_a.shuffle[0..10].join
 {
-title: "Iron Man",
+title: "Iron Man #{random_number}",
 rating: "PG-13",
 total_gross: 318412101.00,
 description: "Tony Stark builds an armored suit to fight the throes of evil",

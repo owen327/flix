@@ -48,8 +48,24 @@ describe "Viewing an individual genre" do
 
   end
 
+  it "shows a list of genres in the sidebar" do
+    genre1 = Genre.create!(name: "Action")
+    genre2 = Genre.create!(name: "Comedy")
+    visit root_url
 
+    within("aside#sidebar") do
+      expect(page).to have_text(genre1.name)
+      expect(page).to have_text(genre2.name)
+    end
+  end
 
+  it "has an SEO-friendly URL" do
+    genre = Genre.create!(name: "Action")
+
+    visit genre_url(genre)
+
+    expect(current_path).to eq("/genres/action")
+  end
 
 
 end

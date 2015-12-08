@@ -1,5 +1,16 @@
 module MoviesHelper
 
+  def nav_link_to(name, path)
+    classes = ['button']
+    classes << 'active' if current_page?(path)
+    link_to(name, path, class: classes.join(' '))
+    # if current_page?(path)
+    #   link_to name, path, class: 'button active'
+    # else
+    #   link_to name, path, class: 'button'
+    # end
+  end
+
   def format_total_gross(movie)
     if movie.flop?
       content_tag(:strong, 'Flop!')

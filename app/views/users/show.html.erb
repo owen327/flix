@@ -1,3 +1,5 @@
+<% title @user.name %>
+
 <article id="user">
   <header>
     <%= profile_image_for(@user) %>
@@ -9,15 +11,6 @@
   <p>
     <%= @user.created_at.strftime("%B %Y") %>
   </p>
-
-  <% if @favourite_movies.any? %>
-    <h3>Favourite Movies</h3>
-    <ul>
-      <% @favourite_movies.each do |favourite_movie| %>
-        <li><%= link_to favourite_movie.title, favourite_movie %></li>
-      <% end %>
-    </ul>
-  <% end %>
 
   <% if @reviews.any? %>
   <h3>Reviews</h3>
@@ -37,7 +30,7 @@
 
   <footer>
     <nav>
-      <% if current_user?(@user) %>
+      <% if current_user?(@user) || current_user_admin? %>
         <%= link_to "Edit Account", edit_user_path(@user), class: 'button' %>
       <% end %>
       <% if current_user_admin? %>
@@ -48,3 +41,7 @@
     </nav>
   </footer>
 </article>
+
+<% content_for :side do %>
+  <%= render 'user_sidebar_extras' %>
+<% end %>

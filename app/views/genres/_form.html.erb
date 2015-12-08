@@ -2,8 +2,18 @@
 <fieldset>
   <%= form_for @genre do |f| %>
   <%= render 'shared/errors', object: @genre %>
-    <%= f.label :name %>
-    <%= f.text_field :name, size: 40, autofocus: true %>
-    <p><%= f.submit %></p>
+    <ol>
+      <li class="required">
+        <%= f.label :name %>
+        <%= f.text_field :name, size: 40, autofocus: true %>
+      </li>
+      <% unless @genre.new_record? %>
+      <li class="required">
+        <%= f.label :slug %>
+        <%= f.text_field :slug, size: 40 %>
+      </li>
+      <% end %>
+      <p><%= f.submit %></p>
+    </ol>
   <% end %>
 </fieldset>
