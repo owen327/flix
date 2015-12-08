@@ -107,30 +107,36 @@ Movie.create!([
 User.create!([
   {
     name: "Admin",
+    username: "admin",
     email: "admin@example.com",
     password: "adminpassword",
-    password_confirmation: "adminpassword"
+    password_confirmation: "adminpassword",
+    admin: true
   },
   {
     name: "Roger Ebert",
+    username: "roger",
     email: "roger@example.com",
     password: "secret",
     password_confirmation: "secret"
   },
   {
     name: "Gene Siskel",
+    username: "gene",
     email: "gene@example.com",
     password: "secret",
     password_confirmation: "secret"
   },
   {
     name: "Peter Travers",
+    username: "peter",
     email: "peter@example.com",
     password: "secret",
     password_confirmation: "secret"
   },
   {
     name: "Elvis Mitchell",
+    username: "elvis",
     email: "elvis@example.com",
     password: "secret",
     password_confirmation: "secret"
