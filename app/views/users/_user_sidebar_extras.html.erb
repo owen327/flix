@@ -1,0 +1,8 @@
+<% if @favourite_movies.any? %>
+  <h3>Favourite Movies</h3>
+  <ul>
+    <% @favourite_movies.each do |favourite_movie| %>
+      <li><%= link_to favourite_movie.title, favourite_movie %></li>
+    <% end %>
+  </ul>
+<% end %>
