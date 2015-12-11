@@ -27,6 +27,10 @@
     <% end %>
   <% end %>
 
+  <% if @movie.trailer? %>
+    <%= content_tag(:iframe, nil, width: "427", height: "240", src: "//www.youtube.com/embed/#{@movie.trailer}" )%>
+  <% end %>
+
   <h3>Cast</h3>
   <p>
     <%= @movie.cast %>

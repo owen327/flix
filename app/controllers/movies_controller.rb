@@ -75,7 +75,7 @@ private
   end
 
   def movie_params
-    params.require(:movie).permit(:slug, :title, :description, :rating, :released_on,
+    params.require(:movie).permit(:trailer, :slug, :title, :description, :rating, :released_on,
   :total_gross, :cast, :director, :duration, :image_file_name, genre_ids: [])
   end
 
